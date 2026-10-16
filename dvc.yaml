@@ -1,0 +1,29 @@
+stages:
+  preprocess:
+    cmd: python preprocess.py
+    deps:
+    - data/data.csv
+    - preprocess.py
+    params:
+    - preprocess.input
+    - preprocess.output
+    outs:
+    - data/processed_data.csv
+  train:
+    cmd: python train.py
+    deps:
+    - data/processed_data.csv
+    - train.py
+    params:
+    - train.max_depth
+    - train.n_estimators
+    outs:
+    - models/model.pkl
+  evaluate:
+    cmd: python evaluate.py
+    deps:
+    - data/processed_data.csv
+    - evaluate.py
+    - models/model.pkl
+    outs:
+    - reports/metrics.json
